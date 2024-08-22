@@ -12,7 +12,7 @@ const FruitJar: React.FC<FruitJarProps> = ({ jar, onRemove, onClear }) => {
 
     return (
         <div>
-            <h2>Fruit Jar</h2>
+            <h2 className="flex flex-row">Fruit Jar</h2>
             <ul>
                 {jar.map(fruit => (
                     <li key={fruit.id}>

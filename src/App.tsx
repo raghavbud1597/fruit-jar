@@ -1,12 +1,8 @@
-import './App.css';
-import FruitPage from './pages/FruitPage';
+import "./App.css";
+import FruitPage from "./pages/FruitPage";
 
 function App() {
-  return (
-    <div className="App">
-      <FruitPage />
-    </div>
-  );
+  return <FruitPage />;
 }
 
 export default App;

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import useFruits from '../hooks/useFruits';
 import { Fruit } from '../reducers/types';
+import FruitCard from './FruitCard';
+import Dropdown from './Dropdown';
+import { GROUP_BY_OPTIONS } from '../constants/groupByList';
 
 interface FruitsListProps {
     addToJar: (fruit: Fruit) => void;
@@ -10,51 +13,65 @@ interface FruitsListProps {
 const FruitsList: React.FC<FruitsListProps> = ({ addToJar, addGroupToJar }) => {
     const { fruitState } = useFruits();
     const [groupBy, setGroupBy] = useState<string>('none');
+    const [toggledFruit, setToggledFruit] = useState<number | null>(null);
 
     const handleGroupChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setGroupBy(e.target.value);
     };
 
-    const groupedFruits = (fruits: Fruit[]) => {
-        if (groupBy === 'none') return { 'All Fruits': fruits };
-        return fruits.reduce((groups: { [key: string]: Fruit[] }, fruit) => {
-            
-            return groups;
-        }, {});
+    const handleToggle = (id: number) => {
+        setToggledFruit(toggledFruit === id ? null : id);
     };
 
+    const handleAddToJar = (fruit: Fruit) => {
+        addToJar(fruit);
+        //removeFruit(fruit.id); // Remove fruit from the list
+    };
+
+    
+
     return (
-        <div>
-            <h1>Fruits List</h1>
-            <div>
-                <label htmlFor="groupBy">Group By:</label>
-                <select id="groupBy" value={groupBy} onChange={handleGroupChange}>
-                    <option value="none">None</option>
-                    <option value="family">Family</option>
-                    <option value="order">Order</option>
-                    <option value="genus">Genus</option>
-                </select>
+        <div className="p-4">
+            <h1 className="text-2xl font-bold mb-4">Fruits List</h1>
+            <div className="mb-4 flex items-center justify-between">
+            <Dropdown
+                    id="groupBy"
+                    value={groupBy}
+                    options={GROUP_BY_OPTIONS}
+                    onChange={handleGroupChange}
+                    className="mr-2"
+                    label="Group By:"
+                />
+                <button
+                    onClick={() => addGroupToJar(fruitState.fruits || [])}
+                    className="ml-4 px-4 py-2 bg-blue-500 text-white rounded"
+                >
+                    Add All
+                </button>
             </div>
-            {fruitState.isError && <div>Error loading fruits</div>}
+            {fruitState.isError && (
+                <div className="text-red-500">Error loading fruits</div>
+            )}
             {fruitState.isLoading ? (
                 <div>Loading...</div>
             ) : (
-                Object.entries(groupedFruits(fruitState.fruits || [])).map(([key, fruits]) => (
-                    <div key={key}>
-                        <h2>{key}</h2>
-                        <button onClick={() => addGroupToJar(fruits)}>Add All {key} Fruits to Jar</button>
-                        <ul>
-                            {fruits.map(fruit => (
-                                <li key={fruit.id}>
-                                    {fruit.name} ({fruit.nutritions.calories} calories)
-                                    <button onClick={() => addToJar(fruit)}>Add to Jar</button>
-                                </li>
+                <div className="mb-6">
+                    <h2 className="text-xl font-semibold mb-2">All Fruits</h2>
+                    <div className="py-2 max-h-[400px] overflow-scroll m-4">
+                        {fruitState.fruits &&
+                            fruitState.fruits.map((fruit) => (
+                                <FruitCard
+                                    key={fruit.id}
+                                    fruit={fruit}
+                                    isToggled={toggledFruit === fruit.id}
+                                    onToggle={handleToggle}
+                                    onAction={handleAddToJar}
+                                    actionType='add'
+                                />
                             ))}
-                        </ul>
                     </div>
-                ))
+                </div>
             )}
-            <div />
         </div>
     );
 };
