@@ -1,5 +1,5 @@
 // components/FruitCard.tsx
-import React from 'react';
+import React, {useState} from 'react';
 import { Fruit } from '../reducers/types';
 
 interface FruitCardProps {
@@ -11,11 +11,17 @@ interface FruitCardProps {
 }
 
 const FruitCard: React.FC<FruitCardProps> = ({ fruit, isToggled, onToggle, onAction, actionType }) => {
+    const [toggledFruit, setToggledFruit] = useState<number | null>(null);
+
+    const handleToggle = (id: number) => {
+        setToggledFruit(toggledFruit === id ? null : id);
+    };
+
     return (
         <div
             key={fruit.id}
             className="border p-4 m-4 rounded shadow-sm cursor-pointer"
-            onClick={() => onToggle(fruit.id)}
+            onClick={() => handleToggle(fruit.id)}
         >
             <div className="flex justify-between items-center">
                 <span className="font-bold">{fruit.name}</span>
@@ -32,7 +38,7 @@ const FruitCard: React.FC<FruitCardProps> = ({ fruit, isToggled, onToggle, onAct
                     </button>
                 </span>
             </div>
-            {isToggled && (
+            {toggledFruit && (
                 <div className="mt-2 text-sm text-gray-600">
                     <p>
                         <strong>Family:</strong> {fruit.family}

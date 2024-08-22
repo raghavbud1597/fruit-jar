@@ -7,6 +7,7 @@ const useFruits = () => {
     const [fruitState, dispatchFruit] = useReducer(fruitReducer, {
         isLoading: false,
         isError: false,
+        removeFruit: false,
         fruits: [],
     } as FruitState);
 
@@ -20,11 +21,19 @@ const useFruits = () => {
         }
     }, []);
 
+    const removeFruit = useCallback((id: number) => {
+        dispatchFruit({ type: 'REMOVE_FRUIT', payload: id });
+    }, []);
+
+    const toggleRemoveFruit = () => {
+        dispatchFruit({ type: 'TOGGLE_REMOVE_FRUIT'});
+    }
+
     useEffect(() => {
         fetchFruits();
     }, [fetchFruits]);
 
-    return { fruitState };
+    return { fruitState, removeFruit, toggleRemoveFruit };
 };
 
 export default useFruits;

@@ -12,7 +12,7 @@ interface DropdownProps {
 const Dropdown: React.FC<DropdownProps> = ({ id, value, options, onChange, className, label }) => {
     return (
         <div className="flex items-center">
-            {label && <label htmlFor={id} className="mx-2 font-semibold">{label}</label>}
+            {label && <label htmlFor={id} className="mr-2 font-semibold">{label}</label>}
             <select
                 id={id}
                 value={value}

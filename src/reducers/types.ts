@@ -18,13 +18,16 @@ export interface Fruit {
 export type State = {
     isLoading: boolean;
     isError: boolean;
-    fruits: Fruit[] | null;
+    removeFruit: boolean;
+    fruits: Fruit[];
 };
 
 export type Action =
     | { type: 'FETCH_INIT' }
     | { type: 'FETCH_SUCCESS'; payload: Fruit[] }
-    | { type: 'FETCH_FAILURE' };
+    | { type: 'FETCH_FAILURE' }
+    | { type: 'TOGGLE_REMOVE_FRUIT' }
+    | { type: 'REMOVE_FRUIT'; payload: number };
 
 export type JarAction =
     | { type: 'ADD_FRUIT'; payload: Fruit }
