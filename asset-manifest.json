@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/fruit-jar/static/css/main.9bf55b35.css",
+    "main.js": "/fruit-jar/static/js/main.e281e32d.js",
+    "index.html": "/fruit-jar/index.html",
+    "main.9bf55b35.css.map": "/fruit-jar/static/css/main.9bf55b35.css.map",
+    "main.e281e32d.js.map": "/fruit-jar/static/js/main.e281e32d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9bf55b35.css",
+    "static/js/main.e281e32d.js"
+  ]
+}
