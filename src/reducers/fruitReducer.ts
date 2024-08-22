@@ -13,7 +13,7 @@ export const fruitReducer = (state: State, action: Action): State => {
     case "REMOVE_FRUIT":
       return {
         ...state,
-        fruits: state.fruits.filter((fruit) => fruit.id !== action.payload),
+        fruits: state.fruits?.filter((fruit) => fruit.id !== action.payload),
       };
     default:
       throw new Error("Unhandled action type");

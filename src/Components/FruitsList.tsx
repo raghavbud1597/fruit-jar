@@ -13,24 +13,19 @@ interface FruitsListProps {
 
 const FruitsList: React.FC<FruitsListProps> = ({ addToJar, addGroupToJar }) => {
   const { fruitState, removeFruit, toggleRemoveFruit } = useFruits();
-  const [groupBy, setGroupBy] = useState<string>("none");
-  const [toggledFruit, setToggledFruit] = useState<number | null>(null);
 
   // Integrating grouping logic
-  const { groupedFruits } = useGroupFruits(fruitState.fruits || [], groupBy);
+  const { groupedFruits, collapsedGroups, groupBy, setGroupBy, toggleGroupVisibility  } = useGroupFruits(fruitState.fruits || []);
 
   const handleGroupChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setGroupBy(e.target.value);
-  };
-
-  const handleToggle = (id: number) => {
-    setToggledFruit(toggledFruit === id ? null : id);
   };
 
   const handleAddToJar = (fruit: Fruit) => {
     addToJar(fruit);
     fruitState.removeFruit && removeFruit(fruit.id); // Remove fruit from the list
   };
+
 
   return (
     <div className="p-4">
@@ -70,22 +65,38 @@ const FruitsList: React.FC<FruitsListProps> = ({ addToJar, addGroupToJar }) => {
       {fruitState.isLoading ? (
         <div>Loading...</div>
       ) : (
-        <div className="mb-6 overflow-scroll max-h-[400px]">
+        <div className="mb-6 overflow-y-scroll max-h-[400px]">
           {Object.entries(groupedFruits).map(([key, fruits]) => (
-            <div key={key}>
-              <h2 className="text-xl font-semibold mb-2">{key}</h2>
-              <div className="py-2 m-4">
-                {fruits.map((fruit) => (
-                  <FruitCard
-                    key={fruit.id}
-                    fruit={fruit}
-                    isToggled={toggledFruit === fruit.id}
-                    onToggle={handleToggle}
-                    onAction={handleAddToJar}
-                    actionType="add"
-                  />
-                ))}
+            <div key={key} className="my-2">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold mb-2">{key}</h2>
+                <div>
+                  <button
+                    onClick={() => toggleGroupVisibility(key)}
+                    className="px-2 py-1 bg-gray-300 rounded mr-2"
+                  >
+                    {collapsedGroups[key] ? "Expand" : "Collapse"}
+                  </button>
+                  <button
+                    onClick={() => addGroupToJar(fruits)}
+                    className="px-2 py-1 bg-blue-500 text-white rounded"
+                  >
+                    Add Group
+                  </button>
+                </div>
               </div>
+              {!collapsedGroups[key] && (
+                <div className="py-2">
+                  {fruits.map((fruit) => (
+                    <FruitCard
+                      key={fruit.id}
+                      fruit={fruit}
+                      onAction={handleAddToJar}
+                      actionType="add"
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>

@@ -1,7 +1,12 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Fruit } from "../reducers/types";
 
-const useGroupFruits = (fruits: Fruit[], groupBy: string) => {
+const useGroupFruits = (fruits: Fruit[]) => {
+  const [groupBy, setGroupBy] = useState<string>("none");
+  const [collapsedGroups, setCollapsedGroups] = useState<
+    Record<string, boolean>
+  >({});
+
   const groupedFruits = useMemo(() => {
     if (groupBy === "none") {
       return { All: fruits };
@@ -17,7 +22,16 @@ const useGroupFruits = (fruits: Fruit[], groupBy: string) => {
     }, {} as Record<string, Fruit[]>);
   }, [fruits, groupBy]);
 
-  return { groupedFruits };
+  const toggleGroupVisibility = (group: string) => {
+    setCollapsedGroups((prev) => ({
+      ...prev,
+      [group]: !prev[group],
+    }));
+  };
+
+  return { groupedFruits, collapsedGroups, groupBy, setGroupBy, toggleGroupVisibility };
 };
+
+
 
 export default useGroupFruits;

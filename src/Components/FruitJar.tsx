@@ -35,10 +35,8 @@ const FruitJar: React.FC<FruitJarProps> = ({ jar, onRemove, onClear }) => {
               <FruitCard
                 key={fruit.id}
                 fruit={fruit}
-                isToggled={false}
-                onToggle={() => {}}
                 onAction={() => onRemove(fruit.id)}
-                actionType="remove" // Button action for removing from jar
+                actionType="remove"
               />
             ))}
           </div>
