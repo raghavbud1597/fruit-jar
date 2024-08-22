@@ -1,11 +1,10 @@
-// components/FruitCard.tsx
 import React, { useState } from "react";
 import { Fruit } from "../reducers/types";
 
 interface FruitCardProps {
   fruit: Fruit;
   onAction: (fruit: Fruit) => void;
-  actionType: "add" | "remove"; // Add new prop to handle button action
+  actionType: "add" | "remove";
 }
 
 const FruitCard: React.FC<FruitCardProps> = ({
@@ -35,7 +34,7 @@ const FruitCard: React.FC<FruitCardProps> = ({
         </div>
         <button
           onClick={(e) => {
-            e.stopPropagation(); // Prevent toggling on button click
+            e.stopPropagation();
             onAction(fruit);
           }}
           className={`p-2 m-1 ${

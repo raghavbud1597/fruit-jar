@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import useFruits from "../hooks/useFruits";
 import useGroupFruits from "../hooks/useGroupFruits";
 import { Fruit } from "../reducers/types";
@@ -15,17 +15,18 @@ const FruitsList: React.FC<FruitsListProps> = ({ addToJar, addGroupToJar }) => {
   const { fruitState, removeFruit, toggleRemoveFruit } = useFruits();
 
   // Integrating grouping logic
-  const { groupedFruits, collapsedGroups, groupBy, setGroupBy, toggleGroupVisibility  } = useGroupFruits(fruitState.fruits || []);
-
-  const handleGroupChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setGroupBy(e.target.value);
-  };
+  const {
+    groupedFruits,
+    collapsedGroups,
+    groupBy,
+    toggleGroupVisibility,
+    handleGroupChange,
+  } = useGroupFruits(fruitState.fruits || []);
 
   const handleAddToJar = (fruit: Fruit) => {
     addToJar(fruit);
-    fruitState.removeFruit && removeFruit(fruit.id); // Remove fruit from the list
+    fruitState.removeFruit && removeFruit(fruit.id);
   };
-
 
   return (
     <div className="p-4">
@@ -40,7 +41,10 @@ const FruitsList: React.FC<FruitsListProps> = ({ addToJar, addGroupToJar }) => {
           label="Group By:"
         />
         <button
-          onClick={() => addGroupToJar(fruitState.fruits || [])}
+          onClick={() => { 
+            addGroupToJar(fruitState.fruits || [])
+            fruitState.removeFruit && fruitState.fruits.forEach((fruit) => removeFruit(fruit.id));
+          }}
           className="ml-4 px-4 py-2 bg-blue-500 text-white rounded"
         >
           Add All
@@ -55,10 +59,10 @@ const FruitsList: React.FC<FruitsListProps> = ({ addToJar, addGroupToJar }) => {
           id="removeFruit"
           name="removeFruit"
           value="removeFruit"
+          checked={fruitState.removeFruit}
           onChange={toggleRemoveFruit}
         />
       </div>
-
       {fruitState.isError && (
         <div className="text-red-500">Error loading fruits</div>
       )}
@@ -78,7 +82,10 @@ const FruitsList: React.FC<FruitsListProps> = ({ addToJar, addGroupToJar }) => {
                     {collapsedGroups[key] ? "Expand" : "Collapse"}
                   </button>
                   <button
-                    onClick={() => addGroupToJar(fruits)}
+                    onClick={() => {
+                        addGroupToJar(fruits);
+                        fruitState.removeFruit && fruits.forEach((fruit) => removeFruit(fruit.id));
+                    }}
                     className="px-2 py-1 bg-blue-500 text-white rounded"
                   >
                     Add Group
@@ -87,14 +94,14 @@ const FruitsList: React.FC<FruitsListProps> = ({ addToJar, addGroupToJar }) => {
               </div>
               {!collapsedGroups[key] && (
                 <div className="py-2">
-                  {fruits.map((fruit) => (
+                  {fruits.length > 0 ? fruits.map((fruit) => (
                     <FruitCard
                       key={fruit.id}
                       fruit={fruit}
                       onAction={handleAddToJar}
                       actionType="add"
                     />
-                  ))}
+                  )) : (<div>List Empty...</div>)}
                 </div>
               )}
             </div>

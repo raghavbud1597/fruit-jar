@@ -7,7 +7,7 @@ const useFruits = () => {
     const [fruitState, dispatchFruit] = useReducer(fruitReducer, {
         isLoading: false,
         isError: false,
-        removeFruit: false,
+        removeFruit: true,
         fruits: [],
     } as FruitState);
 

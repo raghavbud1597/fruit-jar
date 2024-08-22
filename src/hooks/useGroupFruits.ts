@@ -29,9 +29,20 @@ const useGroupFruits = (fruits: Fruit[]) => {
     }));
   };
 
-  return { groupedFruits, collapsedGroups, groupBy, setGroupBy, toggleGroupVisibility };
+  const handleGroupChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setGroupBy(e.target.value);
+  };
+
+  
+
+  return {
+    groupedFruits,
+    collapsedGroups,
+    groupBy,
+    setGroupBy,
+    toggleGroupVisibility,
+    handleGroupChange
+  };
 };
-
-
 
 export default useGroupFruits;
