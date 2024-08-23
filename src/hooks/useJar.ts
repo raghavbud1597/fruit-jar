@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
 import { jarReducer } from '../reducers/jarReducer';
-import { JarState, JarAction } from '../reducers/types';
+import { JarState } from '../reducers/types';
 import { Fruit } from '../reducers/types';
 
 const useJar = () => {
