@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/fruit-jar/static/css/main.9bf55b35.css",
-    "main.js": "/fruit-jar/static/js/main.ec698716.js",
+    "main.js": "/fruit-jar/static/js/main.c4dab914.js",
     "index.html": "/fruit-jar/index.html",
     "main.9bf55b35.css.map": "/fruit-jar/static/css/main.9bf55b35.css.map",
-    "main.ec698716.js.map": "/fruit-jar/static/js/main.ec698716.js.map"
+    "main.c4dab914.js.map": "/fruit-jar/static/js/main.c4dab914.js.map"
   },
   "entrypoints": [
     "static/css/main.9bf55b35.css",
-    "static/js/main.ec698716.js"
+    "static/js/main.c4dab914.js"
   ]
 }
